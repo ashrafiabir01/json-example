@@ -1,0 +1,751 @@
+{
+    "collection": {
+        "info": {
+            "_postman_id": "9df7c393-42da-4658-bf1e-5d7776f05817",
+            "name": "MOP : Partner V1",
+            "description": "[**B**](http://mopwashenduserapi.skyweblab.com/)**ase URL** will change according to server.  \n**Server** we have Dev, Staging and Production.\n\nIn All API secure_key, deviceid, device is required.  \n**secure_key:** is fixed but will change according to server.  \n**deviceid:** should be unique per device(dynamic generation)  \n**device:** should be app in case of mobile app.\n\nAfter Login you have to pass 'Authorization' in header and 'value': Bearer {token that received in login}\n\nWhen you will get **201** or **Something went wrong** error inform me i will check my log.\n\n**Order Status :**  \n*1=> Order Initiated, 2=>Vehicle Picked Up, 3=>Under Review, 4=>Under Service , 5=>Ready for Delivered , 6=>Delivered, 7=>Canceled*\n\n**Full Payment Status:**  \n*1=>Payment Pending, 2=>Full Paid , 3=>Partial Paid*",
+            "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+            "updatedAt": "2022-08-12T16:43:14.000Z"
+        },
+        "item": [{
+            "name": "Login",
+            "id": "6622eb5e-6c13-43b3-9798-e3f49f431345",
+            "protocolProfileBehavior": {
+                "disableBodyPruning": true
+            },
+            "request": {
+                "method": "POST",
+                "header": [{
+                    "key": "secure_key",
+                    "value": "{{PARTNER_APIV1_SECURE_KEY}}",
+                    "type": "text"
+                }, {
+                    "key": "deviceid",
+                    "value": "{{PARTNER_APIV1_DEVICEID}}",
+                    "type": "text"
+                }, {
+                    "key": "device",
+                    "value": "{{PARTNER_APIV1_DEVICE}}",
+                    "type": "text"
+                }],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\r\n    \"email\": \"slvcarcare@yahoo.com\",\r\n    \"password\": \"12345678\",\r\n    \"login_type\": 2\r\n}",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    }
+                },
+                "url": {
+                    "raw": "{{Partner_API}}auth/login",
+                    "host": ["{{Partner_API}}auth"],
+                    "path": ["login"]
+                }
+            },
+            "response": []
+        }, {
+            "name": "Profile",
+            "id": "d578e590-74ff-4ce6-94fd-44896aa36235",
+            "protocolProfileBehavior": {
+                "disableBodyPruning": true
+            },
+            "request": {
+                "method": "GET",
+                "header": [{
+                    "key": "Authorization",
+                    "value": "{{PARTNER_APIV1_TOKEN}}",
+                    "type": "text"
+                }, {
+                    "key": "secure_key",
+                    "value": "{{PARTNER_APIV1_SECURE_KEY}}",
+                    "type": "text"
+                }, {
+                    "key": "deviceid",
+                    "value": "{{PARTNER_APIV1_DEVICEID}}",
+                    "type": "text"
+                }, {
+                    "key": "device",
+                    "value": "{{PARTNER_APIV1_DEVICE}}",
+                    "type": "text"
+                }],
+                "url": {
+                    "raw": "{{PARTNER_APIV1_URL}}profile",
+                    "host": ["{{PARTNER_APIV1_URL}}profile"]
+                }
+            },
+            "response": []
+        }, {
+            "name": "Orders : List",
+            "id": "ee3b4536-c567-4aed-8859-105927dda785",
+            "protocolProfileBehavior": {
+                "disableBodyPruning": true
+            },
+            "request": {
+                "method": "GET",
+                "header": [{
+                    "key": "Authorization",
+                    "value": "{{PARTNER_APIV1_TOKEN}}",
+                    "type": "text"
+                }, {
+                    "key": "secure_key",
+                    "value": "{{PARTNER_APIV1_SECURE_KEY}}",
+                    "type": "text"
+                }, {
+                    "key": "deviceid",
+                    "value": "{{PARTNER_APIV1_DEVICEID}}",
+                    "type": "text"
+                }, {
+                    "key": "device",
+                    "value": "{{PARTNER_APIV1_DEVICE}}",
+                    "type": "text"
+                }],
+                "url": {
+                    "raw": "{{PARTNER_APIV1_URL}}orders/list?limit=10&offset=0",
+                    "host": ["{{PARTNER_APIV1_URL}}orders"],
+                    "path": ["list"],
+                    "query": [{
+                        "key": "order_status",
+                        "value": "1",
+                        "disabled": true
+                    }, {
+                        "key": "limit",
+                        "value": "10",
+                        "description": "default : 10"
+                    }, {
+                        "key": "offset",
+                        "value": "0",
+                        "description": "next offset : offset + limit"
+                    }, {
+                        "key": "delivered_date",
+                        "value": "2022-04-30",
+                        "description": "Filter By : Order Delivered date",
+                        "type": "text",
+                        "disabled": true
+                    }, {
+                        "key": "slot_date",
+                        "value": "2022-04-29",
+                        "description": "Filter BY : Ordered Slot_date",
+                        "type": "text",
+                        "disabled": true
+                    }, {
+                        "key": "filter",
+                        "value": "",
+                        "description": "FIlter By Order No, user_name, user_mobile_no",
+                        "disabled": true
+                    }]
+                }
+            },
+            "response": []
+        }, {
+            "name": "Orders : Details",
+            "id": "2e9ecff3-bcd8-4896-9fab-2dadf1859a1b",
+            "protocolProfileBehavior": {
+                "disableBodyPruning": true
+            },
+            "request": {
+                "method": "GET",
+                "header": [{
+                    "key": "Content-Type",
+                    "value": "application/json"
+                }, {
+                    "key": "Authorization",
+                    "value": "{{PARTNER_APIV1_TOKEN}}"
+                }, {
+                    "key": "deviceid",
+                    "value": "{{PARTNER_APIV1_DEVICEID}}"
+                }, {
+                    "key": "device",
+                    "value": "{{PARTNER_APIV1_DEVICE}}"
+                }, {
+                    "key": "secure_key",
+                    "value": "{{PARTNER_APIV1_SECURE_KEY}}",
+                    "type": "text"
+                }],
+                "url": {
+                    "raw": "{{PARTNER_APIV1_URL}}orders/details/62060b85cdb6e53872f508d5",
+                    "host": ["{{PARTNER_APIV1_URL}}orders"],
+                    "path": ["details", "62060b85cdb6e53872f508d5"]
+                }
+            },
+            "response": []
+        }, {
+            "name": "Jobcard Services : List",
+            "id": "6f832716-45a6-40e3-928b-d165f7b83c94",
+            "protocolProfileBehavior": {
+                "disableBodyPruning": true
+            },
+            "request": {
+                "method": "GET",
+                "header": [{
+                    "key": "Content-Type",
+                    "value": "application/json"
+                }, {
+                    "key": "Authorization",
+                    "value": "{{PARTNER_APIV1_TOKEN}}"
+                }, {
+                    "key": "deviceid",
+                    "value": "{{PARTNER_APIV1_DEVICEID}}"
+                }, {
+                    "key": "device",
+                    "value": "{{PARTNER_APIV1_DEVICE}}"
+                }, {
+                    "key": "secure_key",
+                    "value": "{{PARTNER_APIV1_SECURE_KEY}}",
+                    "type": "text"
+                }],
+                "url": {
+                    "raw": "{{PARTNER_APIV1_URL}}jobcard-all/list",
+                    "host": ["{{PARTNER_APIV1_URL}}jobcard-all"],
+                    "path": ["list"]
+                }
+            },
+            "response": []
+        }, {
+            "name": "Orders : inventory details",
+            "id": "52f68171-3d1b-421f-8816-237ee9dca509",
+            "protocolProfileBehavior": {
+                "disableBodyPruning": true
+            },
+            "request": {
+                "method": "GET",
+                "header": [{
+                    "key": "Content-Type",
+                    "value": "application/json"
+                }, {
+                    "key": "Authorization",
+                    "value": "{{PARTNER_APIV1_TOKEN}}"
+                }, {
+                    "key": "deviceid",
+                    "value": "{{PARTNER_APIV1_DEVICEID}}"
+                }, {
+                    "key": "device",
+                    "value": "{{PARTNER_APIV1_DEVICE}}"
+                }, {
+                    "key": "secure_key",
+                    "value": "{{PARTNER_APIV1_SECURE_KEY}}",
+                    "type": "text"
+                }],
+                "url": {
+                    "raw": "{{PARTNER_APIV1_URL}}orders/inventory-details/62060b85cdb6e53872f508d5",
+                    "host": ["{{PARTNER_APIV1_URL}}orders"],
+                    "path": ["inventory-details", "62060b85cdb6e53872f508d5"]
+                }
+            },
+            "response": []
+        }, {
+            "name": "Orders : inventory-update",
+            "id": "30f81054-146b-4f27-9033-a011671912a2",
+            "protocolProfileBehavior": {
+                "disableBodyPruning": true
+            },
+            "request": {
+                "method": "PUT",
+                "header": [{
+                    "key": "Content-Type",
+                    "value": "application/json"
+                }, {
+                    "key": "Authorization",
+                    "value": "{{PARTNER_APIV1_TOKEN}}",
+                    "type": "text"
+                }, {
+                    "key": "secure_key",
+                    "value": "{{PARTNER_APIV1_SECURE_KEY}}",
+                    "type": "text"
+                }, {
+                    "key": "deviceid",
+                    "value": "{{PARTNER_APIV1_DEVICEID}}",
+                    "type": "text"
+                }, {
+                    "key": "device",
+                    "value": "{{PARTNER_APIV1_DEVICE}}",
+                    "type": "text"
+                }],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"updateInventoryData\" : {\n        \"countInventory\": [\n            {\n                \"inventoryId\": \"610a4cee53554d47b0a7a643\",\n                \"value\": \"2\"\n            },\n            {\n                \"inventoryId\": \"610a4cf953554d47b0a7a644\",\n                \"value\": \"2\"\n            },\n            {\n                \"inventoryId\": \"610ac76253554d47b0a7a64b\",\n                \"value\": \"3\"\n            },\n            {\n                \"inventoryId\": \"610ac77053554d47b0a7a64c\",\n                \"value\": \"4\"\n            },\n            {\n                \"inventoryId\": \"610ac75153554d47b0a7a64a\",\n                \"value\": \"5\"\n            }\n        ],\n        \"optionInventory\": [\n            {\n                \"inventoryId\": \"610a4d1b53554d47b0a7a645\",\n                \"value\": \"Amaron\"\n            }\n        ],\n        \"checkboxInventory\": [\n            {\n                \"inventoryId\": \"610aca2453554d47b0a7a650\",\n                \"value\": [\n                    \"RC\",\n                    \"DL\"\n                ]\n            },\n            {\n                \"inventoryId\": \"610a4d4153554d47b0a7a646\",\n                \"value\": [\n                    \"USB\",\n                    \"Jack Set\"\n                ]\n            }\n        ],\n        \"docInventory\": [\n            {\n                \"inventoryId\": \"610a4d7353554d47b0a7a647\",\n                \"value\": [\n                    \"https://dev-mopwash-document.s3.us-east-2.amazonaws.com/orders/inventory/WG705614/event2.png\"\n                ]\n            },\n            {\n                \"inventoryId\": \"610a4dae53554d47b0a7a648\",\n                \"value\": []\n            }\n        ]\n    },\n    \"fuelInventory\": \"30\",\n    \"otherInventory\": \"This is for Other description\"\n}"
+                },
+                "url": {
+                    "raw": "{{PARTNER_APIV1_URL}}orders/inventory-update/62669d384e6f09459403b096",
+                    "host": ["{{PARTNER_APIV1_URL}}orders"],
+                    "path": ["inventory-update", "62669d384e6f09459403b096"]
+                }
+            },
+            "response": []
+        }, {
+            "name": "Orders : inventory-doc-upload",
+            "id": "f0c63378-e7e3-4f0a-ad01-778c325e1c21",
+            "protocolProfileBehavior": {
+                "disableBodyPruning": true
+            },
+            "request": {
+                "method": "POST",
+                "header": [{
+                    "key": "Content-Type",
+                    "value": "application/json"
+                }, {
+                    "key": "Authorization",
+                    "value": "{{PARTNER_APIV1_TOKEN}}"
+                }, {
+                    "key": "deviceid",
+                    "value": "{{PARTNER_APIV1_DEVICEID}}"
+                }, {
+                    "key": "device",
+                    "value": "{{PARTNER_APIV1_DEVICE}}"
+                }, {
+                    "key": "secure_key",
+                    "value": "{{PARTNER_APIV1_SECURE_KEY}}",
+                    "type": "text"
+                }],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\r\n    \"imageData\" :\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAVsAAAGrCAYAAABuXTT0AAAABHNCSVQICAgIfAhkiAAAIABJREFUeF7tnVlzVEe279feNUkCIcAMxszYGBts0/bFDMK4Dw+OjnDc16uH022BhDnE6RPhh/4E+gT94Ig+HRxAMmD3g17uw43bt/veE6FrA2Iw7QEDxmae50EIJJWq9t4nU7hs2UiqPa1VO6v+1UG73WSutfK3sv7ayp250iJ8QAAEQAAE2AlY7B7gAARAAARAgCC2mAQgAAIgIEAAYisAGS5AAARAAGKLOQACIAACAgQgtgKQ4QIEQAAEILaYAyAAAiAgQABiKwAZLkAABEAAYos5AAIgAAICBCC2ApDhAgRAAAQgtpgDIAACICBAAGIrABkuQAAEQABiizkAAiAAAgIEILYCkOECBEAABCC2mAMgAAIgIEAAYisAGS5AAARAAGKLOQACIAACAgQgtgKQ4QIEQAAEILaYAyAAAiAgQABiKwAZLkAABEAAYos5AAIgAAICBCC2ApDhAgRAAAQgtpgDIAACICBAAGIrABkuQAAEQABiizkAAiAAAgIEILYCkOECBEAABCC2mAMgAAIgIEAAYisAGS5AAARAAGKLOQACIAACAgQgtgKQ4QIEQAAEILaYAyAAAiAgQABiKwAZLkAABEAAYos5AAIgAAICBCC2ApDhAgRAAAQgtpgDIAACICBAAGIrABkuQAAEQABiizkAAiAAAgIEILYCkOECBEAABCC2mAMgAAIgIEAAYisAGS5AAARAAGKLOQACIAACAgQgtgKQ4QIEQAAEILaYAyAAAiAgQABiKwAZLkAABEAAYos5AAIgAAICBCC2ApDhAgRAAAQgtpgDIAACICBAAGIrABkuQAAEQABiizkAAiAAAgIEILYCkOECBEAABCC2mAMgAAIgIEAAYisAGS5AAARAAGKLOQACIAACAgQgtgKQ4QIEQAAEILaYAyAAAiAgQABiKwAZLkAABEAAYos5AAIgAAICBCC2ApDhAgRAAAQgtpgDIAACICBAAGIrABkuQAAEQABiizkAAiAAAgIEILYCkOECBEAABCC2mAMgAAIgIEAAYisAGS5AAARAAGKLOQACIAACAgQgtgKQ4QIEQAAEILaYAyAAAiAgQABiKwAZLkAABEAAYos5AAIgAAICBCC2ApDhAgRAAAQgtpgD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\",\r\n    \"orderNo\" : \"AS12345678\"\r\n}"
+                },
+                "url": {
+                    "raw": "{{PARTNER_APIV1_URL}}orders/inventory-doc-upload",
+                    "host": ["{{PARTNER_APIV1_URL}}orders"],
+                    "path": ["inventory-doc-upload"]
+                }
+            },
+            "response": []
+        }, {
+            "name": "Order : Jobcard  Details",
+            "id": "61374e61-a8fb-4f4a-85b7-6cddf9d5584e",
+            "protocolProfileBehavior": {
+                "disableBodyPruning": true
+            },
+            "request": {
+                "method": "GET",
+                "header": [{
+                    "key": "Content-Type",
+                    "value": "application/json"
+                }, {
+                    "key": "Authorization",
+                    "value": "{{PARTNER_APIV1_TOKEN}}"
+                }, {
+                    "key": "deviceid",
+                    "value": "{{PARTNER_APIV1_DEVICEID}}"
+                }, {
+                    "key": "device",
+                    "value": "{{PARTNER_APIV1_DEVICE}}"
+                }, {
+                    "key": "secure_key",
+                    "value": "{{PARTNER_APIV1_SECURE_KEY}}",
+                    "type": "text"
+                }],
+                "url": {
+                    "raw": "{{PARTNER_APIV1_URL}}orders/jobcard/62669d384e6f09459403b096",
+                    "host": ["{{PARTNER_APIV1_URL}}orders"],
+                    "path": ["jobcard", "62669d384e6f09459403b096"]
+                }
+            },
+            "response": []
+        }, {
+            "name": "Orders : Jobcard  save",
+            "id": "2251ad86-ca50-4b8a-8bf1-8d92b2f7c239",
+            "protocolProfileBehavior": {
+                "disableBodyPruning": true
+            },
+            "request": {
+                "method": "POST",
+                "header": [{
+                    "key": "Content-Type",
+                    "value": "application/json"
+                }, {
+                    "key": "Authorization",
+                    "value": "{{PARTNER_APIV1_TOKEN}}"
+                }, {
+                    "key": "deviceid",
+                    "value": "{{PARTNER_APIV1_DEVICEID}}"
+                }, {
+                    "key": "device",
+                    "value": "{{PARTNER_APIV1_DEVICE}}"
+                }],
+                "body": {
+                    "mode": "raw",
+                    "raw": "[\r\n    {\r\n        \"name\": \"Test Service\",\r\n        \"jobcardServiceId\": \"611bdf2c8e47703d48e14a34\",\r\n        \"type\": \"Replaced\",\r\n        \"service_cost\": \"100\",\r\n        \"discription\": \"jhvhghv\",\r\n        \"quantity\": 1,\r\n        \"totalAmt\": 100\r\n    }\r\n]"
+                },
+                "url": {
+                    "raw": "{{PARTNER_APIV1_URL}}orders/jobcard/save/60f1c1c40bec723d5c9f1c9d",
+                    "host": ["{{PARTNER_APIV1_URL}}orders"],
+                    "path": ["jobcard", "save", "60f1c1c40bec723d5c9f1c9d"]
+                }
+            },
+            "response": []
+        }, {
+            "name": "Orders : Update Status",
+            "id": "19d942a3-b981-437b-9577-fd29614f375a",
+            "protocolProfileBehavior": {
+                "disableBodyPruning": true
+            },
+            "request": {
+                "method": "PUT",
+                "header": [{
+                    "key": "Content-Type",
+                    "value": "application/json"
+                }, {
+                    "key": "Authorization",
+                    "value": "{{PARTNER_APIV1_TOKEN}}"
+                }, {
+                    "key": "deviceid",
+                    "value": "{{PARTNER_APIV1_DEVICEID}}"
+                }, {
+                    "key": "device",
+                    "value": "{{PARTNER_APIV1_DEVICE}}"
+                }],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\r\n    \"order_status\" : 2,\r\n    \"comment\" : \"\"\r\n}"
+                },
+                "url": {
+                    "raw": "{{PARTNER_APIV1_URL}}orders/update-status/60f1c1c40bec723d5c9f1c9d",
+                    "host": ["{{PARTNER_APIV1_URL}}orders"],
+                    "path": ["update-status", "60f1c1c40bec723d5c9f1c9d"]
+                }
+            },
+            "response": []
+        }, {
+            "name": "Orders : Estimation Details",
+            "id": "13c3d4d3-706a-4258-9943-ce83ea60d7b9",
+            "protocolProfileBehavior": {
+                "disableBodyPruning": true
+            },
+            "request": {
+                "method": "GET",
+                "header": [{
+                    "key": "Content-Type",
+                    "value": "application/json"
+                }, {
+                    "key": "Authorization",
+                    "value": "{{PARTNER_APIV1_TOKEN}}"
+                }, {
+                    "key": "deviceid",
+                    "value": "{{PARTNER_APIV1_DEVICEID}}"
+                }, {
+                    "key": "device",
+                    "value": "{{PARTNER_APIV1_DEVICE}}"
+                }, {
+                    "key": "secure_key",
+                    "value": "{{PARTNER_APIV1_SECURE_KEY}}",
+                    "type": "text"
+                }],
+                "url": {
+                    "raw": "{{PARTNER_APIV1_URL}}orders/estimation/62669d384e6f09459403b096",
+                    "host": ["{{PARTNER_APIV1_URL}}orders"],
+                    "path": ["estimation", "62669d384e6f09459403b096"]
+                }
+            },
+            "response": []
+        }, {
+            "name": "Orders : Update Estimation",
+            "id": "4e523389-d2e9-4fc3-8b67-f91adf85ddb0",
+            "protocolProfileBehavior": {
+                "disableBodyPruning": true
+            },
+            "request": {
+                "method": "PUT",
+                "header": [{
+                    "key": "Content-Type",
+                    "value": "application/json"
+                }, {
+                    "key": "Authorization",
+                    "value": "{{PARTNER_APIV1_TOKEN}}"
+                }, {
+                    "key": "deviceid",
+                    "value": "{{PARTNER_APIV1_DEVICEID}}"
+                }, {
+                    "key": "device",
+                    "value": "{{PARTNER_APIV1_DEVICE}}"
+                }, {
+                    "key": "secure_key",
+                    "value": "{{PARTNER_APIV1_SECURE_KEY}}",
+                    "type": "text"
+                }],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\r\n    \"estimatedDeliveryTime\": \"2021-09-08 15:00:00\"\r\n}"
+                },
+                "url": {
+                    "raw": "{{PARTNER_APIV1_URL}}orders/update-estimation/62669d384e6f09459403b096",
+                    "host": ["{{PARTNER_APIV1_URL}}orders"],
+                    "path": ["update-estimation", "62669d384e6f09459403b096"]
+                }
+            },
+            "response": []
+        }, {
+            "name": "Dashboard : Order count",
+            "id": "1b903892-b609-4f8f-9b48-3b0180853367",
+            "protocolProfileBehavior": {
+                "disableBodyPruning": true
+            },
+            "request": {
+                "method": "GET",
+                "header": [{
+                    "key": "Authorization",
+                    "value": "{{PARTNER_APIV1_TOKEN}}",
+                    "type": "text"
+                }, {
+                    "key": "secure_key",
+                    "value": "{{PARTNER_APIV1_SECURE_KEY}}",
+                    "type": "text"
+                }, {
+                    "key": "deviceid",
+                    "value": "{{PARTNER_APIV1_DEVICEID}}",
+                    "type": "text"
+                }, {
+                    "key": "device",
+                    "value": "{{PARTNER_APIV1_DEVICE}}",
+                    "type": "text"
+                }],
+                "url": {
+                    "raw": "{{PARTNER_APIV1_URL}}report/order-count?orderfor=3",
+                    "host": ["{{PARTNER_APIV1_URL}}report"],
+                    "path": ["order-count"],
+                    "query": [{
+                        "key": "orderfor",
+                        "value": "3",
+                        "description": "1=>All, 2=>Today, 3=>Yesterday"
+                    }, {
+                        "key": "from_date",
+                        "value": "2022-06-01",
+                        "description": "Filter By : Order Placed date",
+                        "disabled": true
+                    }, {
+                        "key": "to_date",
+                        "value": "2022-06-05",
+                        "description": "Filter By : Order Placed date",
+                        "disabled": true
+                    }]
+                }
+            },
+            "response": []
+        }, {
+            "name": "Dashboard : Order monthly count",
+            "id": "a964e2bb-cca7-442e-b4e6-d826d88d5f5b",
+            "protocolProfileBehavior": {
+                "disableBodyPruning": true
+            },
+            "request": {
+                "method": "GET",
+                "header": [{
+                    "key": "Authorization",
+                    "value": "{{PARTNER_APIV1_TOKEN}}",
+                    "type": "text"
+                }, {
+                    "key": "secure_key",
+                    "value": "{{PARTNER_APIV1_SECURE_KEY}}",
+                    "type": "text"
+                }, {
+                    "key": "deviceid",
+                    "value": "{{PARTNER_APIV1_DEVICEID}}",
+                    "type": "text"
+                }, {
+                    "key": "device",
+                    "value": "{{PARTNER_APIV1_DEVICE}}",
+                    "type": "text"
+                }],
+                "url": {
+                    "raw": "{{PARTNER_APIV1_URL}}report/order-monthly-count",
+                    "host": ["{{PARTNER_APIV1_URL}}report"],
+                    "path": ["order-monthly-count"],
+                    "query": [{
+                        "key": "year",
+                        "value": "2021",
+                        "description": "Year of Record , Default current year",
+                        "disabled": true
+                    }]
+                }
+            },
+            "response": []
+        }, {
+            "name": "Service center : List",
+            "id": "73e2a222-452f-433b-ad0c-1fc7f11d3ee1",
+            "protocolProfileBehavior": {
+                "disableBodyPruning": true
+            },
+            "request": {
+                "method": "GET",
+                "header": [{
+                    "key": "Authorization",
+                    "value": "{{PARTNER_APIV1_TOKEN}}",
+                    "type": "text"
+                }, {
+                    "key": "secure_key",
+                    "value": "{{PARTNER_APIV1_SECURE_KEY}}",
+                    "type": "text"
+                }, {
+                    "key": "deviceid",
+                    "value": "{{PARTNER_APIV1_DEVICEID}}",
+                    "type": "text"
+                }, {
+                    "key": "device",
+                    "value": "{{PARTNER_APIV1_DEVICE}}",
+                    "type": "text"
+                }],
+                "url": {
+                    "raw": "{{PARTNER_APIV1_URL}}service-center/list",
+                    "host": ["{{PARTNER_APIV1_URL}}service-center"],
+                    "path": ["list"],
+                    "query": [{
+                        "key": "year",
+                        "value": "2021",
+                        "description": "Year of Record , Default current year",
+                        "disabled": true
+                    }]
+                }
+            },
+            "response": []
+        }, {
+            "name": "Service center : details",
+            "id": "f8340925-f4d3-4467-a18e-ebc8b612c732",
+            "protocolProfileBehavior": {
+                "disableBodyPruning": true
+            },
+            "request": {
+                "method": "GET",
+                "header": [{
+                    "key": "Authorization",
+                    "value": "{{PARTNER_APIV1_TOKEN}}",
+                    "type": "text"
+                }, {
+                    "key": "secure_key",
+                    "value": "{{PARTNER_APIV1_SECURE_KEY}}",
+                    "type": "text"
+                }, {
+                    "key": "deviceid",
+                    "value": "{{PARTNER_APIV1_DEVICEID}}",
+                    "type": "text"
+                }, {
+                    "key": "device",
+                    "value": "{{PARTNER_APIV1_DEVICE}}",
+                    "type": "text"
+                }],
+                "url": {
+                    "raw": "{{PARTNER_APIV1_URL}}service-center/details/623dfb91d4915a7a871398ee",
+                    "host": ["{{PARTNER_APIV1_URL}}service-center"],
+                    "path": ["details", "623dfb91d4915a7a871398ee"],
+                    "query": [{
+                        "key": "year",
+                        "value": "2021",
+                        "description": "Year of Record , Default current year",
+                        "disabled": true
+                    }]
+                }
+            },
+            "response": []
+        }, {
+            "name": "Changes Password",
+            "id": "880d3fa6-f699-4f24-96e3-d09f570037a5",
+            "protocolProfileBehavior": {
+                "disableBodyPruning": true
+            },
+            "request": {
+                "method": "PUT",
+                "header": [{
+                    "key": "Authorization",
+                    "value": "{{PARTNER_APIV1_TOKEN}}",
+                    "type": "text"
+                }, {
+                    "key": "secure_key",
+                    "value": "{{PARTNER_APIV1_SECURE_KEY}}",
+                    "type": "text"
+                }, {
+                    "key": "deviceid",
+                    "value": "{{PARTNER_APIV1_DEVICEID}}",
+                    "type": "text"
+                }, {
+                    "key": "device",
+                    "value": "{{PARTNER_APIV1_DEVICE}}",
+                    "type": "text"
+                }],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\r\n    \"currentPassword\" : \"Welcome@2022\",\r\n    \"newPassword\" : \"123456789\"\r\n}",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    }
+                },
+                "url": {
+                    "raw": "{{PARTNER_APIV1_URL}}changes-password",
+                    "host": ["{{PARTNER_APIV1_URL}}changes-password"]
+                }
+            },
+            "response": []
+        }, {
+            "name": "Orders : offline payment received",
+            "id": "3d7070b1-642c-45d5-aa03-bb696356b92c",
+            "protocolProfileBehavior": {
+                "disableBodyPruning": true
+            },
+            "request": {
+                "method": "PUT",
+                "header": [{
+                    "key": "Authorization",
+                    "value": "{{PARTNER_APIV1_TOKEN}}",
+                    "type": "text"
+                }, {
+                    "key": "secure_key",
+                    "value": "{{PARTNER_APIV1_SECURE_KEY}}",
+                    "type": "text"
+                }, {
+                    "key": "deviceid",
+                    "value": "{{PARTNER_APIV1_DEVICEID}}",
+                    "type": "text"
+                }, {
+                    "key": "device",
+                    "value": "{{PARTNER_APIV1_DEVICE}}",
+                    "type": "text"
+                }],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\r\n    \"amount_received\": 50,\r\n    \"payment_mode\": \"1\",\r\n    \"payment_reference\": \"xvdsf\",\r\n    \"comment\": \"v dffd\"\r\n}",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    }
+                },
+                "url": {
+                    "raw": "{{PARTNER_APIV1_URL}}orders/offline-payment-received/61e9bd2cc328fe386c188972",
+                    "host": ["{{PARTNER_APIV1_URL}}orders"],
+                    "path": ["offline-payment-received", "61e9bd2cc328fe386c188972"]
+                }
+            },
+            "response": []
+        }, {
+            "name": "Orders : send payment link",
+            "id": "20dff4fc-30c5-462b-9cc1-95f5fa49c3f0",
+            "protocolProfileBehavior": {
+                "disableBodyPruning": true
+            },
+            "request": {
+                "method": "POST",
+                "header": [{
+                    "key": "Authorization",
+                    "value": "{{PARTNER_APIV1_TOKEN}}",
+                    "type": "text"
+                }, {
+                    "key": "secure_key",
+                    "value": "{{PARTNER_APIV1_SECURE_KEY}}",
+                    "type": "text"
+                }, {
+                    "key": "deviceid",
+                    "value": "{{PARTNER_APIV1_DEVICEID}}",
+                    "type": "text"
+                }, {
+                    "key": "device",
+                    "value": "{{PARTNER_APIV1_DEVICE}}",
+                    "type": "text"
+                }],
+                "url": {
+                    "raw": "{{PARTNER_APIV1_URL}}orders/send-payment-link/61e9bd2cc328fe386c188972",
+                    "host": ["{{PARTNER_APIV1_URL}}orders"],
+                    "path": ["send-payment-link", "61e9bd2cc328fe386c188972"]
+                }
+            },
+            "response": []
+        }]
+    }
+}
